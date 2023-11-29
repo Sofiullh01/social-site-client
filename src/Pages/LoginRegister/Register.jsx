@@ -4,13 +4,19 @@ import registerImg from "../../assets/register.jpg";
 const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
+    const form = e.target;
+    const username = form.username.value;
+    const email = form.email.value;
+    const photo = form.photo.value;
+    const password = form.password.value;
+    console.log(username,email,photo,password);
   };
   return (
     <>
       
-      <div className="flex justify-center items-center gap-4">
+      <div className="flex justify-center items-center gap-4 lg:h-screen">
         <div className="w-3/6 ">
-          <form onSubmit={handleSubmit} className="space-y-6 shadow-lg py-8 px-10 rounded-md bg-[#beeffa]">
+          <form onSubmit={handleSubmit} className="space-y-6 shadow-lg py-8 px-10 rounded-md bg-[#63BDFB]">
           <h1 className="text-5xl font-bold text-center">Register</h1>
             <div className="flex justify-center items-center gap-4">
               <div className="bo">
@@ -83,8 +89,8 @@ const Register = () => {
                 Register
               </button>
             </div>
-            <p className=' -mt-6 flex justify-end items-end'><small>New Here? Please <Link className='font-medium'
-           to='/register'>Register</Link></small></p>
+            <p className=' -mt-6 flex justify-end items-end'><small>Have an accont? Please <Link className='font-medium'
+           to='/login'>Login</Link></small></p>
           </form>
           
         </div>
