@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.transform {
+    transition: transform 0.5s ease;
+  }
+  
+  .skew-x-6 {
+    transform: skewX(-6deg);
+  }

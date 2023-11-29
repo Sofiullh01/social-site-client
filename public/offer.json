@@ -1,0 +1,75 @@
+[
+  {
+    "id": 1,
+    "name": "Basic Package",
+    "description": "Access essential features and content on the forum.",
+    "price": 9.99,
+    "duration": "1 month",
+    "features": [
+      "Basic forum access",
+      "Limited messaging",
+      "Read-only access to premium content"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Silver Package",
+    "description": "Upgrade for an enhanced forum experience.",
+    "price": 19.99,
+    "duration": "3 months",
+    "features": [
+      "Full forum access",
+      "Unlimited messaging",
+      "Access to premium content"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Gold Package",
+    "description": "Premium membership with exclusive perks.",
+    "price": 29.99,
+    "duration": "6 months",
+    "features": [
+      "VIP forum access",
+      "Priority support",
+      "Exclusive content and discussions"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Platinum Package",
+    "description": "The ultimate forum experience with all features.",
+    "price": 49.99,
+    "duration": "1 year",
+    "features": [
+      "All Gold Package features",
+      "Personalized forum customization",
+      "Early access to new features"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Student Package",
+    "description": "Special discount for students with valid ID.",
+    "price": 14.99,
+    "duration": "3 months",
+    "features": [
+      "Full forum access",
+      "Unlimited messaging",
+      "Access to premium content"
+    ],
+    "eligibility": "Valid student ID required"
+  },
+  {
+    "id": 6,
+    "name": "Family Package",
+    "description": "Discounted rates for multiple family members.",
+    "price": 39.99,
+    "duration": "6 months",
+    "features": [
+      "Full forum access for each family member",
+      "Shared premium content"
+    ],
+    "eligibility": "Minimum of 3 family members"
+  }
+]
