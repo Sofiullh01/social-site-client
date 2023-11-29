@@ -10,7 +10,7 @@ const NavBar = () => {
         <Link to="">Membership</Link>
       </li>
       <li className="font-medium">
-        <Link to="/Login">Join US</Link> 
+        <Link to="/register">Join US</Link> 
       </li>
       <li className="font-medium">
         <Link to='/notification'>
