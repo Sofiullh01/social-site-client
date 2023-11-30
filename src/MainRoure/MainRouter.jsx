@@ -7,6 +7,11 @@ import NotFoundPage from "../Pages/NotFoundPage/NotFoundPage";
 import Notification from "../Pages/Notification/Notification";
 import Register from "../Pages/LoginRegister/Register";
 import Login from "../Pages/LoginRegister/Login";
+import Dashbord from "../Layout/Dashbord";
+import PrivateRoute from "./PrivateRoute";
+import Profile from "../Pages/Profile/Profile";
+import AddPost from "../Pages/AddPost/AddPost";
+import MyPosts from "../Pages/MyPosts/MyPosts";
 
   const router = createBrowserRouter([
     {
@@ -32,6 +37,24 @@ import Login from "../Pages/LoginRegister/Login";
       path: '/login',
       element: <Login></Login>
     },
+    {
+      path: '/dashbord',
+      element:<PrivateRoute><Dashbord></Dashbord></PrivateRoute>,
+      children:[
+        {
+          path: "/dashbord/profile",
+          element: <Profile></Profile>
+        },
+        {
+          path: "/dashbord/addaost",
+          element: <AddPost></AddPost>,
+        },
+        {
+          path: "/dashbord/myposts",
+          element: <MyPosts></MyPosts>
+        },
+      ]
+    }
   ]);
 
 export default router;

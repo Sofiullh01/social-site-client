@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import registerImg from "../../assets/register.jpg";
+import useAuth from "../../Hooks/useAuth";
+import toast from "react-hot-toast";
+import Social from "../../Shared/Social";
 
 const Register = () => {
+  const { createUser, updateUserProfile } = useAuth();
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -9,44 +13,60 @@ const Register = () => {
     const email = form.email.value;
     const photo = form.photo.value;
     const password = form.password.value;
-    console.log(username,email,photo,password);
+    console.log(username, email, photo, password);
+
+    // createUser
+    createUser(email, password)
+      .then((userCredential) => {
+        // Signed up
+        const user = userCredential.user;
+        console.log(user);
+        toast.success("User create successfoly");
+        return updateUserProfile(username,photo)
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        console.log(error);
+      });
   };
   return (
     <>
-      
       <div className="flex justify-center items-center gap-4 lg:h-screen">
         <div className="w-3/6 ">
-          <form onSubmit={handleSubmit} className="space-y-6 shadow-lg py-8 px-10 rounded-md bg-[#63BDFB]">
-          <h1 className="text-5xl font-bold text-center">Register</h1>
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-6 shadow-lg py-8 px-10 rounded-md bg-[#63BDFB]"
+          >
+            <h1 className="text-5xl font-bold text-center">Register</h1>
             <div className="flex justify-center items-center gap-4">
               <div className="bo">
-              <label
-                htmlFor="username"
-                className="block text-sm font-medium text-gray-700"
-              >
-                User Name
-              </label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                placeholder="Enter Your Name"
-                className="mt-1 p-2 w-full border rounded-md lg:w-64"
-              />
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  User Name
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Enter Your Name"
+                  className="mt-1 p-2 w-full border rounded-md lg:w-64"
+                />
               </div>
               <div>
-              <label
-                htmlFor="E-mail"
-                className="block text-sm font-medium text-gray-700"
-              >
-                User E-mail
-              </label>
-              <input
-                type="email"
-                name="email"
-                className="mt-1 p-2 w-full border rounded-md"
-                placeholder="Enter Your E-mail"
-              />
+                <label
+                  htmlFor="E-mail"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  User E-mail
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  className="mt-1 p-2 w-full border rounded-md"
+                  placeholder="Enter Your E-mail"
+                />
               </div>
             </div>
 
@@ -89,10 +109,16 @@ const Register = () => {
                 Register
               </button>
             </div>
-            <p className=' -mt-6 flex justify-end items-end'><small>Have an accont? Please <Link className='font-medium'
-           to='/login'>Login</Link></small></p>
+            <p className=" -mt-6 flex justify-end items-end">
+              <small>
+                Have an accont? Please{" "}
+                <Link className="font-medium" to="/login">
+                  Login
+                </Link>
+              </small>
+            </p>
+          <Social></Social>
           </form>
-          
         </div>
         <div className="w-1/2 ">
           <img src={registerImg} alt="" />

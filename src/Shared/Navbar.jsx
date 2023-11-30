@@ -1,6 +1,18 @@
 import { Link } from "react-router-dom";
+import useAuth from "../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const NavBar = () => {
+  const {user,logOut} = useAuth();
+  const handleLogOut = ()=>{
+    console.log('click')
+    logOut()
+    .then(() => {
+      toast.success('User sign out')
+    }).catch((error) => {
+      console.log(error)
+    });
+  }
   const navLinks = (
     <>
       <li className="font-medium">
@@ -9,9 +21,11 @@ const NavBar = () => {
       <li className="font-medium">
         <Link to="">Membership</Link>
       </li>
-      <li className="font-medium">
+      {
+        !user && <li className="font-medium">
         <Link to="/register">Join US</Link> 
       </li>
+      }
       <li className="font-medium">
         <Link to='/notification'>
             <div className="indicator">
@@ -63,10 +77,10 @@ const NavBar = () => {
               {navLinks}
             </ul>
           </div>
-          <div className=" text-3xl  font-Cinzel font-extrabold btn-ghost normal-case rounded-md px-2">
-            <Link to="/">
-              THINK UP
-              <span className="block text-lg font-normal tracking-widest">
+          <div className="lg:pl-8 text-3xl  font-Cinzel font-extrabold btn-ghost normal-case rounded-md px-2">
+            <Link className="text-pink-600">
+              THINK <span className="text-white">UP</span>
+              <span className="block text-lg font-normal tracking-widest text-black">
                 Shere Thoughts
               </span>
             </Link>
@@ -75,7 +89,8 @@ const NavBar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navLinks}</ul>
         </div>
-        <div className="dropdown dropdown-end">
+        {
+          user && <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
             role="button"
@@ -84,25 +99,21 @@ const NavBar = () => {
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                src={user?.photoURL}
               />
             </div>
           </div>
           <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-40">
             <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </a>
+            {user.displayName}
             </li>
             <li>
-              <a>Settings</a>
+              <Link to='/dashbord'>Dashboard</Link>
             </li>
-            <li>
-              <a>Logout</a>
-            </li>
+            <button className="btn" onClick={handleLogOut}>Logout</button>
           </ul>
         </div>
+        }
       </div>
     </>
   );

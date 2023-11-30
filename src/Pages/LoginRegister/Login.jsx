@@ -1,13 +1,29 @@
 import { Link } from "react-router-dom";
 import loginImg from "../../assets/login.jpg";
+import useAuth from "../../Hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Login = () => {
+    const {loginUser} = useAuth();
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+
+    // loginUser
+    loginUser(email,password)
+    .then((userCredential) => {
+      // Signed up 
+      const user = userCredential.user;
+      console.log(user)
+      toast.success('User sign In successfoly')
+    })
+    .catch((error) => {
+      toast.error(error.message)
+      console.log(error)
+    });
   };
   return (
     <div className=" hero  relative">
