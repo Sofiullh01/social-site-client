@@ -1,11 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import registerImg from "../../assets/register.jpg";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import Social from "../../Shared/Social";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const Register = () => {
   const { createUser, updateUserProfile } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const asiosSecure = useAxiosSecure();
+
+  const from = location.state?.from?.pathname || "/";
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -14,21 +20,33 @@ const Register = () => {
     const photo = form.photo.value;
     const password = form.password.value;
     console.log(username, email, photo, password);
-
+  
     // createUser
     createUser(email, password)
       .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
         console.log(user);
-        toast.success("User create successfoly");
-        return updateUserProfile(username,photo)
+  
+        // post to database
+        updateUserProfile(username, photo)
+          .then(() => {
+            toast.success("User created successfully");
+            asiosSecure.post('/users', user) 
+              .then(res => {
+                console.log(res.data);
+              })
+              .catch(error => console.log(error));
+            navigate(from, { replace: true });
+          })
+          .catch(error => console.log(error));
       })
       .catch((error) => {
         toast.error(error.message);
         console.log(error);
       });
   };
+  
   return (
     <>
       <div className="flex justify-center items-center gap-4 lg:h-screen">
@@ -117,7 +135,7 @@ const Register = () => {
                 </Link>
               </small>
             </p>
-          <Social></Social>
+            <Social></Social>
           </form>
         </div>
         <div className="w-1/2 ">

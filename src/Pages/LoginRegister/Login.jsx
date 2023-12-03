@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/login.jpg";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 
 const Login = () => {
-    const {loginUser} = useAuth();
+  const { loginUser } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const from = location.state?.from?.pathname || "/";
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -13,17 +17,18 @@ const Login = () => {
     console.log(email, password);
 
     // loginUser
-    loginUser(email,password)
-    .then((userCredential) => {
-      // Signed up 
-      const user = userCredential.user;
-      console.log(user)
-      toast.success('User sign In successfoly')
-    })
-    .catch((error) => {
-      toast.error(error.message)
-      console.log(error)
-    });
+    loginUser(email, password)
+      .then((userCredential) => {
+        // Sign up
+        const user = userCredential.user;
+        console.log(user);
+        toast.success("User sign In successfoly");
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        toast.error(error.message);
+        console.log(error);
+      });
   };
   return (
     <div className=" hero  relative">

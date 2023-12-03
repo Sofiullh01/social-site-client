@@ -25,7 +25,7 @@ import MyPosts from "../Pages/MyPosts/MyPosts";
         },
         {
             path: 'notification',
-            element: <Notification/>,
+            element:<PrivateRoute><Notification/></PrivateRoute>,
         }
       ]
     },
