@@ -3,50 +3,64 @@ import registerImg from "../../assets/register.jpg";
 import useAuth from "../../Hooks/useAuth";
 import toast from "react-hot-toast";
 import Social from "../../Shared/Social";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useAxionOpne from "../../Hooks/useAxionOpne";
 
 const Register = () => {
   const { createUser, updateUserProfile } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const asiosSecure = useAxiosSecure();
+  const axiosOpen = useAxionOpne();
 
   const from = location.state?.from?.pathname || "/";
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const form = e.target;
     const username = form.username.value;
     const email = form.email.value;
     const photo = form.photo.value;
     const password = form.password.value;
-    console.log(username, email, photo, password);
   
-    // createUser
-    createUser(email, password)
-      .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        console.log(user);
   
-        // post to database
-        updateUserProfile(username, photo)
-          .then(() => {
-            toast.success("User created successfully");
-            asiosSecure.post('/users', user) 
-              .then(res => {
-                console.log(res.data);
-              })
-              .catch(error => console.log(error));
-            navigate(from, { replace: true });
-          })
-          .catch(error => console.log(error));
-      })
-      .catch((error) => {
-        toast.error(error.message);
-        console.log(error);
-      });
+    try {
+      // Create user
+      const userCredential = await createUser(email, password);
+      const user = userCredential.user;
+      console.log('User signed up:', user);
+  
+      // Update  profile
+      await updateUserProfile(username, photo);
+  
+      // Post user  to the database
+      const userInfo = {
+        username,
+        email,
+        photo,
+      };
+  
+      const response = await axiosOpen.post("/users", userInfo);
+  
+      console.log('User added to the database:', response.data);
+  
+      if (response.data.insertedId) {
+        toast.success("User created successfully");
+        navigate(from, { replace: true });
+      }
+    } catch (error) {
+      // Handle specific error scenarios
+      if (error.code === 'auth/email-already-in-use') {
+        toast.error('Email is already in use.');
+      } else if (error.code === 'auth/weak-password') {
+        toast.error('Password is too weak.');
+      } else {
+        toast.error('An error occurred. Please try again.');
+      }
+  
+      console.error('Error:', error);
+    }
   };
   
+
   return (
     <>
       <div className="flex justify-center items-center gap-4 lg:h-screen">

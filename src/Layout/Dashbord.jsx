@@ -1,8 +1,14 @@
 
-import { FcBusinessman,FcPlus,FcNews,FcMenu,FcHome} from "react-icons/fc";
+import { FcBusinessman,FcPlus,FcNews,FcMenu,FcHome, } from "react-icons/fc";
 import { NavLink, Outlet } from "react-router-dom";
+import { IoVolumeMedium } from "react-icons/io5";
+import { FaUsers } from "react-icons/fa6";
+import useAdmin from "../Hooks/useAdmin";
+import Welcome from "../Shared/Welcome";
 
 const Dashbord = () => {
+  // to do
+  const [isAdmin] = useAdmin();
   return (
     <div className="flex gap-8">
       <div className="w-60 min-h-screen bg-gray-300">
@@ -15,7 +21,36 @@ const Dashbord = () => {
             </p>
           </div>
         <ul className="font-semibold menu p-4 space-y-3 ">
+          {
+            isAdmin ?<>
+            <li>
+            <NavLink className="flex" to="/dashbord/profile">
+              <FcBusinessman className="text-3xl"/>
+              Admin Profile
+            </NavLink>
+          </li>
           <li>
+            <NavLink className="flex" to="/dashbord/manageuser">
+              <FaUsers className="text-3xl"/>
+              Manage Users
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className="flex" to="/dashbord/myposts">
+              <FcNews className="text-3xl"/>
+              Reported Comments
+            </NavLink>
+          </li>
+          <li>
+            <NavLink className="flex" to="/dashbord/myposts">
+              <IoVolumeMedium className="text-3xl"/>
+              Make Announcement
+            </NavLink>
+          </li>
+            </>
+            
+            : <>
+            <li>
             <NavLink className="flex" to="/dashbord/profile">
               <FcBusinessman className="text-3xl"/>
               My Profile
@@ -33,6 +68,8 @@ const Dashbord = () => {
               My Posts
             </NavLink>
           </li>
+            </>
+          }
           <div className=" divider"></div>
           <li>
             <NavLink className="flex" to="/">
@@ -50,6 +87,7 @@ const Dashbord = () => {
       </div>
       <div className="flex-1">
         <Outlet></Outlet>
+        <Welcome></Welcome>
       </div>
     </div>
   );

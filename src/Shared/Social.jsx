@@ -2,26 +2,34 @@ import { FcGoogle, FcAddressBook } from "react-icons/fc";
 import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
+import useAxionOpne from "../Hooks/useAxionOpne";
 
 const Social = () => {
   const { googleLogin } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const axiosOpen = useAxionOpne();
 
   const from = location.state?.from?.pathname || "/";
   const handleGoogle = () => {
     googleLogin()
       .then((result) => {
-        // The signed-in user info.
         const user = result.user;
+        const userInfo = {
+          email: result.user?.email,
+          photo:result.user?.photoURL,
+          username:result.user?.displayName,
+        };
+        axiosOpen.post("/users",userInfo)
+        .then(res=>{
+          console.log(res.data)
+        })
         console.log(user);
         navigate(from, { replace: true });
       })
       .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
         const errorMessage = error.message;
-        toast.error(errorMessage, errorCode);
+        toast.error(errorMessage);
         console.log(error);
       });
   };

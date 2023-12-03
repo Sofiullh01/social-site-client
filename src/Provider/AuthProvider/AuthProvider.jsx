@@ -10,12 +10,14 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import auth from "../../Firebase/firebase.config";
+import useAxionOpne from "../../Hooks/useAxionOpne";
 
 export const AuthContext = createContext(null);
 const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const axiosOpne = useAxionOpne();
 
   const createUser = (email, password) => {
     setLoading(true);
@@ -44,6 +46,20 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      const userInfo = {eamil:currentUser?.email}
+      console.log(userInfo)
+      if(currentUser){
+        // anythisg
+        axiosOpne.post('/jwt',userInfo)
+        .then(res=>{
+          if(res.data.token){
+            localStorage.setItem('access_token',res.data.token);
+          }
+        })
+      }else{
+        // sumthing
+        localStorage.removeItem('access_token')
+      }
       console.log("currentUser", currentUser);
       setLoading(false);
     });
@@ -51,7 +67,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       return unsubscribe();
     };
-  }, []);
+  }, [axiosOpne]);
   const authInfos = {
     user,
     logOut,

@@ -75,7 +75,7 @@ const PostCatd = ({ item,refetch}) => {
           {postTitle}
         </h3>
         <p>
-          {postDescription && postDescription.length <= 100
+          { postDescription.length <= 100
             ? postDescription
             : postDescription.slice(0, 100)}
         </p>

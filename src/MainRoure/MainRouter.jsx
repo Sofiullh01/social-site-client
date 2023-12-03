@@ -12,6 +12,7 @@ import PrivateRoute from "./PrivateRoute";
 import Profile from "../Pages/Profile/Profile";
 import AddPost from "../Pages/AddPost/AddPost";
 import MyPosts from "../Pages/MyPosts/MyPosts";
+import ManageUser from "../Pages/ManageUser/ManageUser";
 
   const router = createBrowserRouter([
     {
@@ -53,6 +54,12 @@ import MyPosts from "../Pages/MyPosts/MyPosts";
           path: "/dashbord/myposts",
           element: <MyPosts></MyPosts>
         },
+
+        // admin route
+        {
+          path: '/dashbord/manageuser',
+          element: <ManageUser></ManageUser>
+        }
       ]
     }
   ]);
